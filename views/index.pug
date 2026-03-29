@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    section.hero
+        h1 Explore Your Music
+        p Discover new tracks from the Jamendo API
+    
+    section#songs-list.grid-layout
+        each song in songs
+            .song-card(data-id=song.id, data-audio=song.audio, data-title=song.name, data-artist=song.artist_name, data-image=song.image || 'https://via.placeholder.com/300')
+                .card-image-wrap
+                    img(src=song.image || 'https://via.placeholder.com/300', alt=song.name)
+                    button.play-btn: i.fas.fa-play
+                .card-content
+                    h3: a(href="#")= song.name
+                    p= song.artist_name
+                    .card-footer
+                        - const isLiked = favorites.find(f => f.id === song.id)
+                        button.like-btn(data-id=song.id, title="Like", class=isLiked ? 'liked' : '')
+                            i(class=isLiked ? 'fas fa-heart' : 'far fa-heart')
+                        span.duration #{Math.floor(song.duration / 60)}:#{(song.duration % 60).toString().padStart(2, '0')}
